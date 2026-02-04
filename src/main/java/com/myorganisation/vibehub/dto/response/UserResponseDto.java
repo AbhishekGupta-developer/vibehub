@@ -1,7 +1,9 @@
 package com.myorganisation.vibehub.dto.response;
 
 import com.myorganisation.vibehub.enums.Gender;
+import lombok.Data;
 
+@Data
 public class UserResponseDto {
     private Long id;
     private String name;
