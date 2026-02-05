@@ -1,5 +1,6 @@
 package com.myorganisation.vibehub.controller;
 
+import com.myorganisation.vibehub.dto.response.ServerResponseDto;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class ServerController {
     @GetMapping
-    public ResponseEntity<String> serverStatus() {
-        return new ResponseEntity<>("VibeHub is live", HttpStatusCode.valueOf(200));
+    public ResponseEntity<ServerResponseDto> serverStatus() {
+        return new ResponseEntity<>(new ServerResponseDto(), HttpStatusCode.valueOf(200));
     }
 }
