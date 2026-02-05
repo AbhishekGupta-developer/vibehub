@@ -1,0 +1,141 @@
+{
+  "info": {
+    "_postman_id": "10ed7f51-90d4-4950-b4f0-5d2692d5069f",
+    "name": "VibeHub",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "41965744"
+  },
+  "item": [
+    {
+      "name": "Server status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost",
+          "host": [
+            "localhost"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Abhishek\",\r\n    \"userName\": \"itsrealabhi\",\r\n    \"password\": \"root\",\r\n    \"email\": \"abhishekg.developer@gmail.com\",\r\n    \"phone\": \"8840204441\",\r\n    \"gender\": \"MALE\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:80/api/users",
+          "host": [
+            "localhost"
+          ],
+          "port": "80",
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get user",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost/api/users/2",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "api",
+            "users",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get all users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost/api/users",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update user",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Abhishek Gupta\",\r\n    \"userName\": \"itsrealabhi\",\r\n    \"password\": \"root\",\r\n    \"email\": \"abhishekg.developer@gmail.com\",\r\n    \"phone\": \"8840204445\",\r\n    \"gender\": \"MALE\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost/api/users/2",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "api",
+            "users",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove user",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost/api/users?id=11",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "api",
+            "users"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "11"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
