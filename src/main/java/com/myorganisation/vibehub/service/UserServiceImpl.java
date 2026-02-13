@@ -20,18 +20,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto addUser(UserRequestDto userRequestDto) {
         User user = mapUserRequestDtoToUser(userRequestDto, new User());
-        userRepository.addUser(user);
+        userRepository.save(user);
         return mapUserToUserResponseDto(user);
     }
 
     @Override
     public UserResponseDto getUser(Long id) {
-        return mapUserToUserResponseDto(userRepository.getUser(id));
+        return mapUserToUserResponseDto(userRepository.findById(id).orElse(null));
     }
 
     @Override
     public List<UserResponseDto> getAllUsers() {
-        List<User> userList = userRepository.getAllUsers();
+        List<User> userList = userRepository.findAll();
         List<UserResponseDto> userResponseDtoList = new LinkedList<>();
 
         for(User user : userList) {
@@ -43,20 +43,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
-        User user = userRepository.getUser(id);
+        User user = userRepository.findById(id).orElse(null);
         mapUserRequestDtoToUser(userRequestDto, user);
-        userRepository.updateUser(user);
+        userRepository.save(user);
 
         return mapUserToUserResponseDto(user);
     }
 
     @Override
     public GenericResponseDto removeUser(Long id) {
-        User user = userRepository.getUser(id);
+        User user = userRepository.findById(id).orElse(null);
         GenericResponseDto genericResponseDto = new GenericResponseDto();
         if(user != null) {
             String name = user.getName();
-            userRepository.removeUser(id);
+            userRepository.deleteById(id);
             genericResponseDto.setIsSuccess(true);
             genericResponseDto.setMessage("User name: " + name + " removed successfully");
         } else {
