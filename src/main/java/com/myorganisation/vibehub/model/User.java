@@ -13,9 +13,16 @@ public class User {
     private Long id;
 
     private String name;
+
+    @Column(unique = true)
     private String userName;
+
     private String password;
+
+    @Column(unique = true)
     private String email;
+
+    @Column(unique = true)
     private String phone;
 
     @Enumerated(EnumType.STRING)

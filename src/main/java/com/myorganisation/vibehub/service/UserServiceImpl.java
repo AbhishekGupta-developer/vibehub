@@ -3,6 +3,7 @@ package com.myorganisation.vibehub.service;
 import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
 import com.myorganisation.vibehub.dto.response.UserResponseDto;
+import com.myorganisation.vibehub.enums.Gender;
 import com.myorganisation.vibehub.model.User;
 import com.myorganisation.vibehub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,35 @@ public class UserServiceImpl implements UserService {
         }
 
         return genericResponseDto;
+    }
+
+    @Override
+    public UserResponseDto searchByUserName(String name) {
+        return mapUserToUserResponseDto(userRepository.findByUserName(name).orElse(null));
+    }
+
+    @Override
+    public List<UserResponseDto> searchByName(String name) {
+        List<User> userList = userRepository.findByNameContaining(name);
+        List<UserResponseDto> userResponseDtoList = new LinkedList<>();
+
+        for(User user : userList) {
+            userResponseDtoList.add(mapUserToUserResponseDto(user));
+        }
+
+        return userResponseDtoList;
+    }
+
+    @Override
+    public List<UserResponseDto> searchByNameAndGender(String name, Gender gender) {
+        List<User> userList = userRepository.findByNameContainingAndGender(name, gender);
+        List<UserResponseDto> userResponseDtoList = new LinkedList<>();
+
+        for(User user : userList) {
+            userResponseDtoList.add(mapUserToUserResponseDto(user));
+        }
+
+        return userResponseDtoList;
     }
 
     // Helper methods

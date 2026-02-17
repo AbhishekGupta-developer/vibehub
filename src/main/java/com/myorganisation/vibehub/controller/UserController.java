@@ -3,6 +3,7 @@ package com.myorganisation.vibehub.controller;
 import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
 import com.myorganisation.vibehub.dto.response.UserResponseDto;
+import com.myorganisation.vibehub.enums.Gender;
 import com.myorganisation.vibehub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -41,5 +42,20 @@ public class UserController {
     @DeleteMapping
     public ResponseEntity<GenericResponseDto> removeUser(@RequestParam Long id) {
         return new ResponseEntity<>(userService.removeUser(id), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/username/{username}")
+    public ResponseEntity<UserResponseDto> searchByUsername(@PathVariable String username) {
+        return new ResponseEntity<>(userService.searchByUserName(username), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/name/{name}")
+    public ResponseEntity<List<UserResponseDto>> searchByName(@PathVariable String name) {
+        return new ResponseEntity<>(userService.searchByName(name), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/params")
+    public ResponseEntity<List<UserResponseDto>> searchByNameAndGender(@RequestParam String name, @RequestParam Gender gender) {
+        return new ResponseEntity<>(userService.searchByNameAndGender(name,gender), HttpStatusCode.valueOf(200));
     }
 }
