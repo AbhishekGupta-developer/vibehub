@@ -58,4 +58,19 @@ public class UserController {
     public ResponseEntity<List<UserResponseDto>> searchByNameAndGender(@RequestParam String name, @RequestParam Gender gender) {
         return new ResponseEntity<>(userService.searchByNameAndGender(name,gender), HttpStatusCode.valueOf(200));
     }
+
+    @GetMapping("/search/email/domain/{domain}")
+    public ResponseEntity<List<UserResponseDto>> searchUsersByEmailDomain(@PathVariable String domain) {
+        return new ResponseEntity<>(userService.searchUsersByEmailDomain(domain), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/native-sql/id/{id}")
+    public ResponseEntity<UserResponseDto> searchUserByIdUsingNativeQuery(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.searchUserByIdUsingNativeQuery(id), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/native-sql/gender/{gender}")
+    public ResponseEntity<List<UserResponseDto>> searchUsersByGenderUsingNativeQuery(@PathVariable Gender gender) {
+        return new ResponseEntity<>(userService.searchUsersByGenderUsingNativeQuery(gender), HttpStatusCode.valueOf(200));
+    }
 }

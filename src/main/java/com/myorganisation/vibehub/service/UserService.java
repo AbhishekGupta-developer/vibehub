@@ -14,8 +14,12 @@ public interface UserService {
     UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
     GenericResponseDto removeUser(Long id);
 
-    // Custom finder methods
     UserResponseDto searchByUserName(String name);
     List<UserResponseDto> searchByName(String name);
     List<UserResponseDto> searchByNameAndGender(String name, Gender gender);
+
+    List<UserResponseDto> searchUsersByEmailDomain(String emailDomain);
+
+    UserResponseDto searchUserByIdUsingNativeQuery(Long id);
+    List<UserResponseDto> searchUsersByGenderUsingNativeQuery(Gender gender);
 }

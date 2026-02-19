@@ -87,7 +87,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDto> searchByNameAndGender(String name, Gender gender) {
-        List<User> userList = userRepository.findByNameContainingAndGender(name, gender);
+        List<User> userList = userRepository.searchUserByExactNameAndGender(name, gender);
+        List<UserResponseDto> userResponseDtoList = new LinkedList<>();
+
+        for(User user : userList) {
+            userResponseDtoList.add(mapUserToUserResponseDto(user));
+        }
+
+        return userResponseDtoList;
+    }
+
+    @Override
+    public List<UserResponseDto> searchUsersByEmailDomain(String emailDomain) {
+        List<User> userList = userRepository.searchUserByEmailDomain('@' + emailDomain);
+        List<UserResponseDto> userResponseDtoList = new LinkedList<>();
+
+        for(User user : userList) {
+            userResponseDtoList.add(mapUserToUserResponseDto(user));
+        }
+
+        return userResponseDtoList;
+    }
+
+    @Override
+    public UserResponseDto searchUserByIdUsingNativeQuery(Long id) {
+        User user = userRepository.searchUserByIdUsingNativeQuery(id).orElse(null);
+        return mapUserToUserResponseDto(user);
+    }
+
+    @Override
+    public List<UserResponseDto> searchUsersByGenderUsingNativeQuery(Gender gender) {
+        List<User> userList = userRepository.searchUsersByGenderUsingNativeQuery(gender.name());
         List<UserResponseDto> userResponseDtoList = new LinkedList<>();
 
         for(User user : userList) {
