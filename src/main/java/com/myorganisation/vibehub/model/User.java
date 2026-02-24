@@ -27,4 +27,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @OneToOne
+    private ProfilePicture profilePicture;
 }
