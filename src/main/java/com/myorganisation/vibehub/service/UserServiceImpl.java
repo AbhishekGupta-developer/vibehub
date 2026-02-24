@@ -1,22 +1,29 @@
 package com.myorganisation.vibehub.service;
 
+import com.myorganisation.vibehub.dto.request.ProfilePictureRequestDto;
 import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
 import com.myorganisation.vibehub.dto.response.UserResponseDto;
 import com.myorganisation.vibehub.enums.Gender;
+import com.myorganisation.vibehub.model.ProfilePicture;
 import com.myorganisation.vibehub.model.User;
+import com.myorganisation.vibehub.repository.ProfilePictureRepository;
 import com.myorganisation.vibehub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProfilePictureRepository profilePictureRepository;
 
     @Override
     public UserResponseDto addUser(UserRequestDto userRequestDto) {
@@ -125,6 +132,28 @@ public class UserServiceImpl implements UserService {
         }
 
         return userResponseDtoList;
+    }
+
+    @Override
+    public GenericResponseDto uploadProfilePicture(Long id, ProfilePictureRequestDto profilePictureRequestDto) {
+        User user = userRepository.findById(id).orElse(null);
+
+        ProfilePicture profilePicture = new ProfilePicture();
+        profilePicture.setUrl(profilePictureRequestDto.getUrl());
+        profilePicture.setAlternativeText(user.getName() + "'s profile picture not found");
+        profilePicture.setUser(user);
+
+        profilePictureRepository.save(profilePicture);
+
+        user.setProfilePicture(profilePicture);
+        userRepository.save(user); // update -> profile picture id
+
+        GenericResponseDto genericResponseDto = new GenericResponseDto();
+        genericResponseDto.setIsSuccess(true);
+        genericResponseDto.setMessage("Profile picture uploaded successfully");
+        genericResponseDto.setDetails(Map.of("profileId", user.getProfilePicture().getId()));
+
+        return genericResponseDto;
     }
 
     // Helper methods
