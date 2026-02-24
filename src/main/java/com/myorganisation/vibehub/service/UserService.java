@@ -1,5 +1,6 @@
 package com.myorganisation.vibehub.service;
 
+import com.myorganisation.vibehub.dto.request.ProfilePictureRequestDto;
 import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
 import com.myorganisation.vibehub.dto.response.UserResponseDto;
@@ -22,4 +23,6 @@ public interface UserService {
 
     UserResponseDto searchUserByIdUsingNativeQuery(Long id);
     List<UserResponseDto> searchUsersByGenderUsingNativeQuery(Gender gender);
+
+    GenericResponseDto uploadProfilePicture(Long id, ProfilePictureRequestDto profilePictureRequestDto);
 }
