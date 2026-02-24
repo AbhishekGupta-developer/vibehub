@@ -1,5 +1,6 @@
 package com.myorganisation.vibehub.controller;
 
+import com.myorganisation.vibehub.dto.request.ProfilePictureRequestDto;
 import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
 import com.myorganisation.vibehub.dto.response.UserResponseDto;
@@ -72,5 +73,10 @@ public class UserController {
     @GetMapping("/search/native-sql/gender/{gender}")
     public ResponseEntity<List<UserResponseDto>> searchUsersByGenderUsingNativeQuery(@PathVariable Gender gender) {
         return new ResponseEntity<>(userService.searchUsersByGenderUsingNativeQuery(gender), HttpStatusCode.valueOf(200));
+    }
+
+    @PostMapping("/profile-picture/{id}")
+    public ResponseEntity<GenericResponseDto> uploadProfilePicture(@PathVariable Long id, @RequestBody ProfilePictureRequestDto profilePictureRequestDto) {
+        return new ResponseEntity<>(userService.uploadProfilePicture(id, profilePictureRequestDto), HttpStatusCode.valueOf(201));
     }
 }
