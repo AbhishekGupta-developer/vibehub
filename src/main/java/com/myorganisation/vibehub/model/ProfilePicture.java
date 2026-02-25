@@ -1,5 +1,6 @@
 package com.myorganisation.vibehub.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,5 +17,6 @@ public class ProfilePicture {
     private String alternativeText;
 
     @OneToOne
+    @JsonIgnore
     private User user;
 }

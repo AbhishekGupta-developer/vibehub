@@ -7,6 +7,7 @@ import com.myorganisation.vibehub.dto.response.UserResponseDto;
 import com.myorganisation.vibehub.enums.Gender;
 import com.myorganisation.vibehub.model.ProfilePicture;
 import com.myorganisation.vibehub.model.User;
+import com.myorganisation.vibehub.model.Wallet;
 import com.myorganisation.vibehub.repository.ProfilePictureRepository;
 import com.myorganisation.vibehub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto addUser(UserRequestDto userRequestDto) {
         User user = mapUserRequestDtoToUser(userRequestDto, new User());
+
+        Wallet wallet = new Wallet();
+        wallet.setBalance(0D);
+        wallet.setUser(user);
+
+        user.setWallet(wallet);
+
         userRepository.save(user);
+
         return mapUserToUserResponseDto(user);
     }
 
@@ -167,6 +176,8 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setPhone(user.getPhone());
         userResponseDto.setGender(user.getGender());
+        userResponseDto.setWallet(user.getWallet());
+        userResponseDto.setProfilePicture(user.getProfilePicture());
 
         return userResponseDto;
     }

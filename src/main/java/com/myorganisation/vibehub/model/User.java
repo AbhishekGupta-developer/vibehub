@@ -28,6 +28,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne
+    @OneToOne(mappedBy = "user")
     private ProfilePicture profilePicture;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Wallet wallet;
 }
