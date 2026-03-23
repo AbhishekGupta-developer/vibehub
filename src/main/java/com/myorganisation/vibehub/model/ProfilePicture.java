@@ -19,4 +19,8 @@ public class ProfilePicture {
     @OneToOne
     @JsonIgnore
     private User user;
+
+    @OneToOne
+    @JsonIgnore
+    private Group group;
 }
