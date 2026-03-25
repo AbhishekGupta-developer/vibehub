@@ -3,6 +3,10 @@ package com.myorganisation.vibehub.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -13,10 +17,19 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String caption;
-    private Long likeCount;
-    private Long commentCount;
-    private Long shareCount;
+
+    private Long likeCount = 0L;
+    private Long commentCount = 0L;
+    private Long shareCount = 0L;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JsonIgnore
