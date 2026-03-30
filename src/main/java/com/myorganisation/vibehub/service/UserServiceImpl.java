@@ -5,13 +5,14 @@ import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
 import com.myorganisation.vibehub.dto.response.UserResponseDto;
 import com.myorganisation.vibehub.enums.Gender;
-import com.myorganisation.vibehub.model.ProfilePicture;
-import com.myorganisation.vibehub.model.User;
-import com.myorganisation.vibehub.model.Wallet;
+import com.myorganisation.vibehub.model.*;
+import com.myorganisation.vibehub.repository.CountryRepository;
+import com.myorganisation.vibehub.repository.NumberOfUserRepository;
 import com.myorganisation.vibehub.repository.ProfilePictureRepository;
 import com.myorganisation.vibehub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +27,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ProfilePictureRepository profilePictureRepository;
 
+    @Autowired
+    private CountryRepository countryRepository;
+
+    @Autowired
+    private NumberOfUserRepository numberOfUserRepository;
+
     @Override
+    @Transactional
     public UserResponseDto addUser(UserRequestDto userRequestDto) {
+        NumberOfUser numberOfUser = numberOfUserRepository.findById(1L).orElse(null);
+        numberOfUser.setCounter(numberOfUser.getCounter() + 1);
+        numberOfUserRepository.save(numberOfUser);
+
         User user = mapUserRequestDtoToUser(userRequestDto, new User());
 
         Wallet wallet = new Wallet();
@@ -35,6 +47,9 @@ public class UserServiceImpl implements UserService {
         wallet.setUser(user);
 
         user.setWallet(wallet);
+
+        Country country = countryRepository.findById(userRequestDto.getCountryId()).orElse(null);
+        user.setCountry(country);
 
         userRepository.save(user);
 
