@@ -5,6 +5,7 @@ import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
 import com.myorganisation.vibehub.dto.response.UserResponseDto;
 import com.myorganisation.vibehub.enums.Gender;
+import com.myorganisation.vibehub.exception.UserNotFoundException;
 import com.myorganisation.vibehub.model.*;
 import com.myorganisation.vibehub.repository.CountryRepository;
 import com.myorganisation.vibehub.repository.NumberOfUserRepository;
@@ -58,7 +59,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getUser(Long id) {
-        return mapUserToUserResponseDto(userRepository.findById(id).orElse(null));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User id: " + id + " doesn't exist"));
+        return mapUserToUserResponseDto(user);
     }
 
     @Override

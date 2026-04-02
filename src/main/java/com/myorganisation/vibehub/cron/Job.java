@@ -30,7 +30,11 @@ public class Job {
 
 //    @Scheduled(cron = "0-5 * * * * ?")
 
-    @Scheduled(cron = "0 */5 0-7,17-23 * * SAT,SUN")
+//    @Scheduled(cron = "0 */5 0-7,17-23 * * SAT,SUN")
+
+    // Except 1st Jan
+    @Scheduled(cron = "0 0 1 2-31 JAN ?")
+    @Scheduled(cron = "0 0 1 * FEB-DEC ?")
     public void printHello() {
         System.out.println("Hello");
     }
