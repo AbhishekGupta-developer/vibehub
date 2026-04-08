@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class ServerController {
+
+    @GetMapping("/test")
+    public String testApi() {
+        return "TEST API";
+    }
+
     @GetMapping
     public ResponseEntity<ServerResponseDto> serverStatus() {
         return new ResponseEntity<>(new ServerResponseDto(), HttpStatusCode.valueOf(200));
