@@ -12,17 +12,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
-       httpSecurity
-               .csrf(csrf -> csrf.disable())
-               .authorizeHttpRequests(
+        httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(
+                        auth -> auth
+                                .requestMatchers(HttpMethod.GET, "/").permitAll()
+//                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults());
 
-                       auth -> auth
-                       .requestMatchers("/test").permitAll()
-                       .anyRequest().authenticated()
-               )
-               .httpBasic(Customizer.withDefaults());
 
-
-       return httpSecurity.build();
+        return httpSecurity.build();
     }
 }
