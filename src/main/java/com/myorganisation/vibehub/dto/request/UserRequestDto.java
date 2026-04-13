@@ -1,6 +1,7 @@
 package com.myorganisation.vibehub.dto.request;
 
 import com.myorganisation.vibehub.enums.Gender;
+import com.myorganisation.vibehub.enums.UserRole;
 import lombok.Data;
 
 @Data
@@ -12,4 +13,5 @@ public class UserRequestDto {
     private String phone;
     private Gender gender;
     private Long countryId;
+    private UserRole role;
 }

@@ -12,6 +12,7 @@ import com.myorganisation.vibehub.repository.NumberOfUserRepository;
 import com.myorganisation.vibehub.repository.ProfilePictureRepository;
 import com.myorganisation.vibehub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private NumberOfUserRepository numberOfUserRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -193,6 +197,7 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setPhone(user.getPhone());
         userResponseDto.setGender(user.getGender());
+        userResponseDto.setRole(user.getRole());
         userResponseDto.setWallet(user.getWallet());
         userResponseDto.setProfilePicture(user.getProfilePicture());
 
@@ -203,10 +208,11 @@ public class UserServiceImpl implements UserService {
     private User mapUserRequestDtoToUser(UserRequestDto userRequestDto, User user) {
         user.setName(userRequestDto.getName());
         user.setUserName(userRequestDto.getUserName());
-        user.setPassword(userRequestDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
         user.setEmail(userRequestDto.getEmail());
         user.setPhone(userRequestDto.getPhone());
         user.setGender(userRequestDto.getGender());
+        user.setRole(userRequestDto.getRole());
 
         return user;
     }
