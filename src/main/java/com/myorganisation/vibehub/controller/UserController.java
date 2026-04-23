@@ -1,5 +1,6 @@
 package com.myorganisation.vibehub.controller;
 
+import com.myorganisation.vibehub.dto.request.LoginRequestDto;
 import com.myorganisation.vibehub.dto.request.ProfilePictureRequestDto;
 import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
@@ -19,6 +20,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/login")
+    public ResponseEntity<GenericResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatusCode.valueOf(200));
+    }
 
     @PostMapping
     public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRequestDto userRequestDto) {

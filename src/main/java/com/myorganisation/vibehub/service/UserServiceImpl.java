@@ -1,5 +1,6 @@
 package com.myorganisation.vibehub.service;
 
+import com.myorganisation.vibehub.dto.request.LoginRequestDto;
 import com.myorganisation.vibehub.dto.request.ProfilePictureRequestDto;
 import com.myorganisation.vibehub.dto.request.UserRequestDto;
 import com.myorganisation.vibehub.dto.response.GenericResponseDto;
@@ -11,7 +12,9 @@ import com.myorganisation.vibehub.repository.CountryRepository;
 import com.myorganisation.vibehub.repository.NumberOfUserRepository;
 import com.myorganisation.vibehub.repository.ProfilePictureRepository;
 import com.myorganisation.vibehub.repository.UserRepository;
+import com.myorganisation.vibehub.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     @Transactional
@@ -182,6 +191,24 @@ public class UserServiceImpl implements UserService {
         genericResponseDto.setIsSuccess(true);
         genericResponseDto.setMessage("Profile picture uploaded successfully");
         genericResponseDto.setDetails(Map.of("profileId", user.getProfilePicture().getId()));
+
+        return genericResponseDto;
+    }
+
+    @Override
+    public GenericResponseDto login(LoginRequestDto loginRequestDto) {
+        User user = (User) userDetailsService.loadUserByUsername(loginRequestDto.getUsername());
+        String password = user.getPassword();
+        GenericResponseDto genericResponseDto = new GenericResponseDto();
+        if(passwordEncoder.matches(loginRequestDto.getPassword(), password)) {
+            String token = jwtUtil.generateToken(user);
+            genericResponseDto.setIsSuccess(true);
+            genericResponseDto.setMessage("User authenticated");
+            genericResponseDto.setDetails(Map.of("Access token", token));
+        } else {
+            genericResponseDto.setIsSuccess(false);
+            genericResponseDto.setMessage("User authentication failed");
+        }
 
         return genericResponseDto;
     }
