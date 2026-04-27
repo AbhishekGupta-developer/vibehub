@@ -23,7 +23,6 @@ public class UserCounterInitializer {
                 numberOfUser.setId(1L);
                 numberOfUser.setCounter(0L);
                 numberOfUserRepository.save(numberOfUser);
-                System.out.println("NumberOfUser object created!");
             }
         };
     }

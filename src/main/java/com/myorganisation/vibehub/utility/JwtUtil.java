@@ -27,6 +27,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .subject(user.getUserName())
                 .claim("role", user.getRole())
+                .claim("name", user.getName())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + AUTH_EXPIRATION))
                 .signWith(KEY, Jwts.SIG.HS256)
@@ -35,6 +36,10 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
         return getClaims(token).getSubject();
+    }
+
+    public String extractUserRole(String token) {
+        return getClaims(token).get("role", String.class);
     }
 
     private Claims getClaims(String token) {

@@ -39,7 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if(authHeader != null && authHeader.startsWith("Bearer")) {
             token = authHeader.substring(7);
             username = jwtUtil.extractUsername(token);
-//            role = ;
+            role = jwtUtil.extractUserRole(token);
         }
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -52,7 +52,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
-            System.out.println("Token added to context");
         }
 
         filterChain.doFilter(request, response);
